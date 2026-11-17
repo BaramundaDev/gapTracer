@@ -1,0 +1,25 @@
+{
+  "mode": "smoke",
+  "cutoff": "2017-07-01",
+  "future_through": "2018-07-01",
+  "future_pool": 15,
+  "gap_limit": 2,
+  "topics": [
+    {
+      "id": "transformer-generation",
+      "data": "../../data/evaluation-smoke-transformer",
+      "source": "transformer-v1.json",
+      "future_query": "non-autoregressive neural machine translation",
+      "future_provider": "arxiv",
+      "questions": [
+        {
+          "id": "future-generation",
+          "text": "What change to generation did the Transformer authors list as a research goal?",
+          "gold_answer": "Make generation less sequential.",
+          "gold_passage_ids": ["oa-W2626778328-1-1"],
+          "required_paper_ids": ["oa-W2626778328"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "description": "Initial acceptance targets, not measured performance. Freeze and review these with the research lead before running held-out topics.",
+  "min_topics": 20,
+  "min_questions": 100,
+  "min_repeats": 3,
+  "min_claims_per_run": 100,
+  "minimums": {
+    "answer_accuracy": 0.8,
+    "evidence_quality": 0.95,
+    "cross_document_retrieval": 0.8,
+    "gap_judgment_coverage": 1.0,
+    "canonical_label_coverage": 1.0,
+    "gap_evidence_coverage": 1.0,
+    "fully_supported_gap_rate": 1.0,
+    "actionable_precision@5": 0.6
+  },
+  "maximums": {
+    "hallucination_rate": 0.0,
+    "duplicate_rate": 0.1
+  }
+}

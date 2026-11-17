@@ -1,0 +1,52 @@
+# GapTrace settings. Every context technique has an off switch under `switches`.
+model:
+  local: "ollama_chat/qwen3.5:4b"     # LiteLLM model string for the local model
+  local_num_ctx: 8192
+  local_api_base: "http://127.0.0.1:11434"
+  tokenizer: "assets/qwen35-tokenizer.json" # relative to the installed gaptrace package
+  cloud_light: ""                     # LiteLLM model string; empty = not configured
+  cloud_strong: ""
+  embedding: "ollama/all-minilm:l6-v2"
+cloud:
+  enabled: false                      # the product works fully with this off
+budget:                               # tokens per local call; must sum to total
+  total: 8000
+  instructions: 1100
+  state: 600
+  notes: 2400
+  passage: 1200
+  output: 1200
+  margin: 1500
+limits:
+  l0_tokens: 30
+  l1_tokens: 120
+  passage_tokens: 400
+  max_cloud_calls_per_topic: 25
+  max_steps: 8
+tool_caps:                            # tokens returned by each tool
+  search_notes: 400
+  get_note: 200
+  neighbours: 400
+  get_passage: 500
+  lookup_fact: 200
+  find_gaps: 150                      # per gap card
+  get_trail: 300
+retrieval:
+  rrf_k: 60
+  top_k: 20
+gaps:
+  min_dataset_users: 2
+  conflict_tolerance: 0.5
+  top_n: 10
+merge:
+  similarity_threshold: 0.86
+switches:
+  stateless_steps: true
+  three_note_sizes: true
+  tool_results_to_disk: true
+  pointer_stubs: true
+  write_before_drop: true
+  exact_fact_route: true
+  constrained_output: true
+  link_verifier: true
+  hybrid_search: true

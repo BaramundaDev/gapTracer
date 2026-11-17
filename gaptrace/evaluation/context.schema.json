@@ -1,0 +1,288 @@
+{
+  "$defs": {
+    "ContextTopic": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "corpus": {
+          "items": {
+            "$ref": "#/$defs/Paper"
+          },
+          "minItems": 1,
+          "title": "Corpus",
+          "type": "array"
+        },
+        "passages": {
+          "items": {
+            "$ref": "#/$defs/SourcePassage"
+          },
+          "minItems": 1,
+          "title": "Passages",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "$ref": "#/$defs/MemoryNote"
+          },
+          "minItems": 1,
+          "title": "Notes",
+          "type": "array"
+        },
+        "questions": {
+          "items": {
+            "$ref": "#/$defs/Question"
+          },
+          "minItems": 1,
+          "title": "Questions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "corpus",
+        "passages",
+        "notes",
+        "questions"
+      ],
+      "title": "ContextTopic",
+      "type": "object"
+    },
+    "MemoryNote": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "title": "Type",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "passage_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Passage Ids",
+          "type": "array"
+        },
+        "links": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "title",
+        "summary",
+        "passage_ids"
+      ],
+      "title": "MemoryNote",
+      "type": "object"
+    },
+    "Paper": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "published": {
+          "format": "date",
+          "title": "Published",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "published"
+      ],
+      "title": "Paper",
+      "type": "object"
+    },
+    "Question": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "gold_answer": {
+          "minLength": 1,
+          "title": "Gold Answer",
+          "type": "string"
+        },
+        "answerable": {
+          "default": true,
+          "title": "Answerable",
+          "type": "boolean"
+        },
+        "gold_passage_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Gold Passage Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_paper_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Required Paper Ids",
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "gold_answer"
+      ],
+      "title": "Question",
+      "type": "object"
+    },
+    "SourcePassage": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "paper_id": {
+          "minLength": 1,
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "paper_title": {
+          "minLength": 1,
+          "title": "Paper Title",
+          "type": "string"
+        },
+        "published": {
+          "format": "date",
+          "title": "Published",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "paper_id",
+        "paper_title",
+        "published",
+        "text"
+      ],
+      "title": "SourcePassage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "enum": [
+        "smoke",
+        "benchmark"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "split": {
+      "default": "development",
+      "enum": [
+        "development",
+        "held-out"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "cutoff": {
+      "format": "date",
+      "title": "Cutoff",
+      "type": "string"
+    },
+    "model_training_cutoff": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Training Cutoff"
+    },
+    "future_through": {
+      "format": "date",
+      "title": "Future Through",
+      "type": "string"
+    },
+    "provenance": {
+      "minLength": 1,
+      "title": "Provenance",
+      "type": "string"
+    },
+    "topics": {
+      "items": {
+        "$ref": "#/$defs/ContextTopic"
+      },
+      "minItems": 1,
+      "title": "Topics",
+      "type": "array"
+    },
+    "records_per_step": {
+      "default": 2,
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Records Per Step",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "mode",
+    "cutoff",
+    "future_through",
+    "provenance",
+    "topics"
+  ],
+  "title": "ContextPlan",
+  "type": "object"
+}

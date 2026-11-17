@@ -1,0 +1,7 @@
+A gap was proposed using only papers before {cutoff}. Below is a paper
+published after it. Does the paper do the work the gap describes?
+Be strict: the same topic is not enough; the paper must address the
+specific missing piece.
+Gap: {gap_statement}
+Later paper: {title}. {abstract}
+Return JSON only: {"match": true or false, "confidence": 0 to 1, "reason": "under 30 words"}.

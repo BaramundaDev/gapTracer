@@ -1,0 +1,1185 @@
+{
+  "split": "development",
+  "cutoff": "2024-01-31",
+  "model_training_cutoff": "2024-01-01",
+  "future_through": "2024-10-31",
+  "topics": [
+    {
+      "id": "synthetic-a",
+      "questions": [
+        {
+          "id": "compare",
+          "text": "Which color does each study use?",
+          "gold_answer": "One study uses red and the other uses blue.",
+          "gold_passage_ids": [
+            "a-1",
+            "b-1"
+          ],
+          "required_paper_ids": [
+            "a",
+            "b"
+          ]
+        }
+      ],
+      "gold_gaps": [
+        {
+          "id": "gold-both",
+          "statement": "A study testing red and blue together.",
+          "relevance": 3
+        },
+        {
+          "id": "gold-third",
+          "statement": "A study testing a third color.",
+          "relevance": 2
+        }
+      ]
+    },
+    {
+      "id": "synthetic-b",
+      "questions": [
+        {
+          "id": "count",
+          "text": "How many trials were run?",
+          "gold_answer": "Three.",
+          "gold_passage_ids": [
+            "c-1"
+          ],
+          "required_paper_ids": [
+            "c"
+          ]
+        }
+      ],
+      "gold_gaps": []
+    }
+  ],
+  "runs": [
+    {
+      "id": "full-1",
+      "system": "full",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "both-colors",
+              "statement": "A single study has yet to test both colors.",
+              "candidates": [
+                {
+                  "id": "future-weak",
+                  "published": "2024-02-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.7,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-late",
+                  "published": "2024-06-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-early",
+                  "published": "2024-04-30",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.8,
+                    "grader": "fixture"
+                  }
+                }
+              ],
+              "type": "untested_combination",
+              "canonical_id": "both-colors",
+              "gold_id": "gold-both",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.8,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 5,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 5,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 4,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            },
+            {
+              "id": "third-color",
+              "statement": "A third color is untested.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "third-color",
+              "gold_id": "gold-third",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.25,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "One study uses red and the other uses blue.",
+              "grader": "fixture",
+              "correct": true,
+              "cited_passage_ids": [
+                "a-1",
+                "b-1",
+                "a-extra"
+              ],
+              "retrieved_paper_ids": [
+                "a",
+                "b"
+              ],
+              "claims": [
+                {
+                  "text": "First study uses red",
+                  "supported": true,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                },
+                {
+                  "text": "Second study uses blue",
+                  "supported": true,
+                  "passage_ids": [
+                    "b-1"
+                  ]
+                }
+              ],
+              "tool_calls": 4,
+              "response_seconds": 5.0,
+              "token_comparison": {
+                "mcp_tokens": 120,
+                "raw_passage_tokens": 400
+              }
+            }
+          ],
+          "efficiency": {
+            "total_tokens": 8000,
+            "cloud_calls": 0,
+            "largest_context_tokens": 4800,
+            "peak_gpu_mib": 2500,
+            "build_seconds": 80.0
+          },
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Two.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [
+                "c"
+              ],
+              "claims": [
+                {
+                  "text": "There were two",
+                  "supported": false
+                }
+              ],
+              "tool_calls": 2,
+              "response_seconds": 3.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    },
+    {
+      "id": "vector-1",
+      "system": "vector",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "vector-gap",
+              "statement": "The study has yet to test purple.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "vector-gap",
+              "gold_id": null,
+              "predicted_status": "open",
+              "reference_status": "closed",
+              "predicted_doability": 6,
+              "future_probability": 0.7,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 2,
+                "open": 1,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": false,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 2,
+                  "open": 1,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 2,
+                  "open": 2,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "Both use red.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [
+                "a-1"
+              ],
+              "retrieved_paper_ids": [
+                "a"
+              ],
+              "claims": [
+                {
+                  "text": "Both use red",
+                  "supported": false,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                }
+              ],
+              "tool_calls": 1,
+              "response_seconds": 2.0
+            }
+          ],
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Not found.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [],
+              "claims": [],
+              "tool_calls": 0,
+              "response_seconds": 1.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    },
+    {
+      "id": "full-2",
+      "system": "full",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "both-colors",
+              "statement": "A single study has yet to test both colors.",
+              "candidates": [
+                {
+                  "id": "future-weak",
+                  "published": "2024-02-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.7,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-late",
+                  "published": "2024-06-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-early",
+                  "published": "2024-04-30",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.8,
+                    "grader": "fixture"
+                  }
+                }
+              ],
+              "type": "untested_combination",
+              "canonical_id": "both-colors",
+              "gold_id": "gold-both",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.8,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 5,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 5,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 4,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            },
+            {
+              "id": "third-color",
+              "statement": "A third color is untested.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "third-color",
+              "gold_id": "gold-third",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.25,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "One study uses red and the other uses blue.",
+              "grader": "fixture",
+              "correct": true,
+              "cited_passage_ids": [
+                "a-1",
+                "b-1",
+                "a-extra"
+              ],
+              "retrieved_paper_ids": [
+                "a",
+                "b"
+              ],
+              "claims": [
+                {
+                  "text": "First study uses red",
+                  "supported": true,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                },
+                {
+                  "text": "Second study uses blue",
+                  "supported": true,
+                  "passage_ids": [
+                    "b-1"
+                  ]
+                }
+              ],
+              "tool_calls": 4,
+              "response_seconds": 5.0,
+              "token_comparison": {
+                "mcp_tokens": 120,
+                "raw_passage_tokens": 400
+              }
+            }
+          ],
+          "efficiency": {
+            "total_tokens": 8000,
+            "cloud_calls": 0,
+            "largest_context_tokens": 4800,
+            "peak_gpu_mib": 2500,
+            "build_seconds": 80.0
+          },
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Two.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [
+                "c"
+              ],
+              "claims": [
+                {
+                  "text": "There were two",
+                  "supported": false
+                }
+              ],
+              "tool_calls": 2,
+              "response_seconds": 3.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    },
+    {
+      "id": "vector-2",
+      "system": "vector",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "vector-gap",
+              "statement": "The study has yet to test purple.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "vector-gap",
+              "gold_id": null,
+              "predicted_status": "open",
+              "reference_status": "closed",
+              "predicted_doability": 6,
+              "future_probability": 0.7,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 2,
+                "open": 1,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": false,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 2,
+                  "open": 1,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 2,
+                  "open": 2,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "Both use red.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [
+                "a-1"
+              ],
+              "retrieved_paper_ids": [
+                "a"
+              ],
+              "claims": [
+                {
+                  "text": "Both use red",
+                  "supported": false,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                }
+              ],
+              "tool_calls": 1,
+              "response_seconds": 2.0
+            }
+          ],
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Not found.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [],
+              "claims": [],
+              "tool_calls": 0,
+              "response_seconds": 1.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    },
+    {
+      "id": "full-3",
+      "system": "full",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "both-colors",
+              "statement": "A single study has yet to test both colors.",
+              "candidates": [
+                {
+                  "id": "future-weak",
+                  "published": "2024-02-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.7,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-late",
+                  "published": "2024-06-01",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  }
+                },
+                {
+                  "id": "future-early",
+                  "published": "2024-04-30",
+                  "first": {
+                    "match": true,
+                    "confidence": 0.9,
+                    "grader": "fixture"
+                  },
+                  "recheck": {
+                    "match": true,
+                    "confidence": 0.8,
+                    "grader": "fixture"
+                  }
+                }
+              ],
+              "type": "untested_combination",
+              "canonical_id": "both-colors",
+              "gold_id": "gold-both",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.8,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 5,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 5,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 4,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            },
+            {
+              "id": "third-color",
+              "statement": "A third color is untested.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "third-color",
+              "gold_id": "gold-third",
+              "predicted_status": "open",
+              "reference_status": "open",
+              "predicted_doability": 6,
+              "future_probability": 0.25,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 5,
+                "open": 5,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": true,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 5,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 4,
+                  "open": 5,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "One study uses red and the other uses blue.",
+              "grader": "fixture",
+              "correct": true,
+              "cited_passage_ids": [
+                "a-1",
+                "b-1",
+                "a-extra"
+              ],
+              "retrieved_paper_ids": [
+                "a",
+                "b"
+              ],
+              "claims": [
+                {
+                  "text": "First study uses red",
+                  "supported": true,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                },
+                {
+                  "text": "Second study uses blue",
+                  "supported": true,
+                  "passage_ids": [
+                    "b-1"
+                  ]
+                }
+              ],
+              "tool_calls": 4,
+              "response_seconds": 5.0,
+              "token_comparison": {
+                "mcp_tokens": 120,
+                "raw_passage_tokens": 400
+              }
+            }
+          ],
+          "efficiency": {
+            "total_tokens": 8000,
+            "cloud_calls": 0,
+            "largest_context_tokens": 4800,
+            "peak_gpu_mib": 2500,
+            "build_seconds": 80.0
+          },
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Two.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [
+                "c"
+              ],
+              "claims": [
+                {
+                  "text": "There were two",
+                  "supported": false
+                }
+              ],
+              "tool_calls": 2,
+              "response_seconds": 3.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    },
+    {
+      "id": "vector-3",
+      "system": "vector",
+      "topics": [
+        {
+          "id": "synthetic-a",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "a",
+              "published": "2023-08-30"
+            },
+            {
+              "id": "b",
+              "published": "2024-01-31"
+            }
+          ],
+          "gaps": [
+            {
+              "id": "vector-gap",
+              "statement": "The study has yet to test purple.",
+              "candidates": [],
+              "type": "untested_combination",
+              "canonical_id": "vector-gap",
+              "gold_id": null,
+              "predicted_status": "open",
+              "reference_status": "closed",
+              "predicted_doability": 6,
+              "future_probability": 0.7,
+              "judgment": {
+                "grader": "synthetic-adjudicator",
+                "real": 2,
+                "open": 1,
+                "doable": 3,
+                "reason": "Synthetic label for exercising the scorer only.",
+                "doability_rubric": {
+                  "data": 2,
+                  "compute": 1,
+                  "blocks": 2,
+                  "scope": 2
+                }
+              },
+              "evidence": [
+                {
+                  "passage_id": "a-1",
+                  "paper_id": "a",
+                  "passage_text": "Synthetic source: this study tests red only.",
+                  "quote": "tests red only",
+                  "supported": false,
+                  "grader": "synthetic-evidence-reviewer"
+                }
+              ],
+              "ratings": [
+                {
+                  "rater": "synthetic-rater-a",
+                  "real": 2,
+                  "open": 1,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating A."
+                },
+                {
+                  "rater": "synthetic-rater-b",
+                  "real": 2,
+                  "open": 2,
+                  "doable": 3,
+                  "reason": "Synthetic independent rating B."
+                }
+              ]
+            }
+          ],
+          "answers": [
+            {
+              "question_id": "compare",
+              "answer": "Both use red.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [
+                "a-1"
+              ],
+              "retrieved_paper_ids": [
+                "a"
+              ],
+              "claims": [
+                {
+                  "text": "Both use red",
+                  "supported": false,
+                  "passage_ids": [
+                    "a-1"
+                  ]
+                }
+              ],
+              "tool_calls": 1,
+              "response_seconds": 2.0
+            }
+          ],
+          "gold_mapping_complete": true
+        },
+        {
+          "id": "synthetic-b",
+          "build_cloud_enabled": false,
+          "build_cloud_calls": 0,
+          "corpus": [
+            {
+              "id": "c",
+              "published": "2023-06-01"
+            }
+          ],
+          "gaps": [],
+          "answers": [
+            {
+              "question_id": "count",
+              "answer": "Not found.",
+              "grader": "fixture",
+              "correct": false,
+              "cited_passage_ids": [],
+              "retrieved_paper_ids": [],
+              "claims": [],
+              "tool_calls": 0,
+              "response_seconds": 1.0
+            }
+          ],
+          "gold_mapping_complete": true
+        }
+      ]
+    }
+  ],
+  "ranking_ks": [
+    1,
+    3,
+    5,
+    10
+  ]
+}

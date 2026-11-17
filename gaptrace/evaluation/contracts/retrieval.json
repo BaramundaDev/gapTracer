@@ -1,0 +1,21 @@
+{
+  "description": "Invented lexical retrieval controls. Gold labels are fixed independently of the search implementation. No claim about production embeddings.",
+  "notes": [
+    {"id":"replay","type":"method","name":"Replay buffer","aliases":["episodic replay"],"l0":"Replay buffer stores examples for continual learning"},
+    {"id":"elastic","type":"method","name":"Elastic consolidation","l0":"Elastic consolidation regularizes weights against forgetting"},
+    {"id":"atlas","type":"dataset","name":"Atlas benchmark","l0":"Atlas benchmark measures speech recognition"},
+    {"id":"vision","type":"dataset","name":"Vision suite","l0":"Vision suite measures image classification"},
+    {"id":"limit","type":"limitation","name":"Speech memory limit","l0":"Speech memory use grows with sequence length"},
+    {"id":"result","type":"result","name":"Replay result","l0":"Replay buffer accuracy is 81 percent","paper_id":"paper-a","fact":{"method":"Replay buffer","dataset":"Vision suite","metric":"accuracy","value":81,"unit":"%"}}
+  ],
+  "queries": [
+    {"id":"exact-method","text":"replay buffer","type":"method","gold":["replay"]},
+    {"id":"alias","text":"episodic replay","type":"method","gold":["replay"]},
+    {"id":"regularization","text":"elastic consolidation weights","type":"method","gold":["elastic"]},
+    {"id":"dataset","text":"Atlas speech recognition","type":"dataset","gold":["atlas"]},
+    {"id":"limitation","text":"speech memory sequence length","type":"limitation","gold":["limit"]},
+    {"id":"multi-note","text":"replay elastic consolidation","type":"method","gold":["replay","elastic"]},
+    {"id":"type-filter","text":"replay buffer accuracy","type":"result","gold":["result"]},
+    {"id":"absent","text":"zygomorphic quasar","type":null,"gold":[]}
+  ]
+}

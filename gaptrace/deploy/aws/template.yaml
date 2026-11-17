@@ -1,0 +1,193 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private GapTrace MCP knowledge connector. Hosts prepared data, not model inference. Review AWS account allowances before deployment.
+Parameters:
+  CodeBucket:
+    Type: String
+    Description: Existing private S3 bucket containing the generated Lambda zip
+  CodeKey:
+    Type: String
+    Default: gaptrace/connector.zip
+  CallbackUrls:
+    Type: CommaDelimitedList
+    Description: Exact OAuth callback URLs from the intended ChatGPT or Claude connector configuration
+  CognitoDomainPrefix:
+    Type: String
+    AllowedPattern: '[a-z0-9-]{3,60}'
+    Description: Globally unique Cognito hosted login domain prefix
+Resources:
+  KnowledgeBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration: {Status: Enabled}
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AdminCreateUserConfig: {AllowAdminCreateUserOnly: true}
+      UsernameAttributes: [email]
+      AutoVerifiedAttributes: [email]
+      Policies:
+        PasswordPolicy: {MinimumLength: 14, RequireLowercase: true, RequireUppercase: true, RequireNumbers: true, RequireSymbols: true}
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref UserPool
+      Domain: !Ref CognitoDomainPrefix
+  ScopeResource:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      UserPoolId: !Ref UserPool
+      Identifier: gaptrace
+      Name: GapTrace private knowledge
+      Scopes:
+        - {ScopeName: read, ScopeDescription: Read prepared research evidence}
+        - {ScopeName: write, ScopeDescription: Save model-generated research hypotheses}
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: ScopeResource
+    Properties:
+      UserPoolId: !Ref UserPool
+      GenerateSecret: true
+      SupportedIdentityProviders: [COGNITO]
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [code]
+      AllowedOAuthScopes: [openid, email, gaptrace/read, gaptrace/write]
+      CallbackURLs: !Ref CallbackUrls
+      PreventUserExistenceErrors: ENABLED
+      AccessTokenValidity: 30
+      IdTokenValidity: 30
+      RefreshTokenValidity: 7
+      TokenValidityUnits: {AccessToken: minutes, IdToken: minutes, RefreshToken: days}
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub '${AWS::StackName}-mcp'
+      ProtocolType: HTTP
+  JwtAuthorizer:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties:
+      ApiId: !Ref HttpApi
+      Name: CognitoResourceBoundAccess
+      AuthorizerType: JWT
+      IdentitySource: ['$request.header.Authorization']
+      JwtConfiguration:
+        Audience: [!Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/mcp']
+        Issuer: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}-mcp'
+      RetentionInDays: 7
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: lambda.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ReadPreparedEvidenceWriteAssessments
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [s3:GetObject]
+                Resource: !Sub '${KnowledgeBucket.Arn}/workspace/*'
+              - Effect: Allow
+                Action: [s3:PutObject]
+                Resource:
+                  - !Sub '${KnowledgeBucket.Arn}/workspace/evidence/*'
+                  - !Sub '${KnowledgeBucket.Arn}/workspace/results/*'
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub '${LogGroup.Arn}:*'
+  ConnectorFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-mcp'
+      Runtime: python3.12
+      Architectures: [arm64]
+      Handler: handler.handler
+      Role: !GetAtt LambdaRole.Arn
+      MemorySize: 256
+      Timeout: 30
+      Code: {S3Bucket: !Ref CodeBucket, S3Key: !Ref CodeKey}
+      Environment:
+        Variables:
+          KNOWLEDGE_BUCKET: !Ref KnowledgeBucket
+          RESOURCE_URL: !Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/mcp'
+          OAUTH_ISSUER: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'
+          ALLOWED_ORIGINS: https://chatgpt.com,https://claude.ai
+  Integration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt ConnectorFunction.Arn
+      PayloadFormatVersion: '2.0'
+      TimeoutInMillis: 29000
+  McpPost:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: POST /mcp
+      Target: !Join ['/', [integrations, !Ref Integration]]
+      AuthorizationType: JWT
+      AuthorizerId: !Ref JwtAuthorizer
+      AuthorizationScopes: [gaptrace/read]
+  McpGet:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: GET /mcp
+      Target: !Join ['/', [integrations, !Ref Integration]]
+      AuthorizationType: JWT
+      AuthorizerId: !Ref JwtAuthorizer
+      AuthorizationScopes: [gaptrace/read]
+  Metadata:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: GET /.well-known/oauth-protected-resource
+      Target: !Join ['/', [integrations, !Ref Integration]]
+      AuthorizationType: NONE
+  MetadataPath:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: GET /.well-known/oauth-protected-resource/mcp
+      Target: !Join ['/', [integrations, !Ref Integration]]
+      AuthorizationType: NONE
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref HttpApi
+      StageName: '$default'
+      AutoDeploy: true
+      DefaultRouteSettings: {ThrottlingBurstLimit: 4, ThrottlingRateLimit: 2}
+  InvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ConnectorFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*'
+Outputs:
+  McpUrl: {Value: !Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/mcp'}
+  KnowledgeBucket: {Value: !Ref KnowledgeBucket}
+  UserPoolId: {Value: !Ref UserPool}
+  OAuthClientId: {Value: !Ref UserPoolClient}
+  OAuthIssuer: {Value: !Sub 'https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}'}
+  OAuthLogin: {Value: !Sub 'https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com'}

@@ -1,0 +1,18 @@
+{
+  "mode": "smoke",
+  "split": "development",
+  "cutoff": "2017-07-01",
+  "future_through": "2018-07-01",
+  "provenance": "Historical integration replay only. Exact excerpt from Attention Is All You Need v1, conclusion: https://arxiv.org/pdf/1706.03762v1 . Notes are manually supplied controls, not model-extraction results.",
+  "records_per_step": 2,
+  "topics": [{
+    "id": "transformer-generation",
+    "corpus": [{"id": "transformer-v1", "published": "2017-06-12"}],
+    "passages": [{"id": "transformer-v1-conclusion", "paper_id": "transformer-v1", "paper_title": "Attention Is All You Need", "published": "2017-06-12", "text": "Making generation less sequential is another research goals of ours."}],
+    "notes": [
+      {"id": "paper-transformer", "type": "paper", "title": "Attention Is All You Need", "summary": "The authors identify less sequential generation as future work.", "passage_ids": ["transformer-v1-conclusion"], "links": [{"type": "states", "target": "open-generation", "verified": true, "passage_id": "transformer-v1-conclusion"}]},
+      {"id": "open-generation", "type": "open_question", "title": "Less sequential generation", "summary": "Making generation less sequential is another research goal of the authors.", "passage_ids": ["transformer-v1-conclusion"], "links": []}
+    ],
+    "questions": [{"id": "generation-goal", "text": "What change to generation did the Transformer authors list as a research goal?", "gold_answer": "Make generation less sequential.", "gold_passage_ids": ["transformer-v1-conclusion"], "required_paper_ids": ["transformer-v1"]}]
+  }]
+}

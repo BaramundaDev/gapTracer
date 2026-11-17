@@ -1,0 +1,20 @@
+You read one passage from a research paper and list what it states.
+Return JSON only: {"notes": [...], "links": [...]}.
+Note types: problem, method, dataset, result, limitation, open_question.
+Each note: type, name (under 10 words), l0 (one line), l1 (under 90 words).
+For a result also give "fact": {"method", "dataset", "metric", "value", "unit"} exactly as written; value is a number.
+Each link: "from", "to", "type", "evidence_sentence".
+"from" and "to" are note names from your list; use "PAPER" for the paper itself.
+Link types: proposes (PAPER to method), targets (method to problem), evaluated_on (method to dataset),
+reports (PAPER to result), states (PAPER to limitation or open_question),
+addresses (PAPER or method to limitation or open_question), extends (method to method),
+contradicts (result to result).
+evidence_sentence must be copied word for word from the passage.
+Include only what the passage says. If it states nothing of these kinds, return empty lists.
+Do not use outside knowledge.
+Keep this response within the output budget: at most 4 notes and 4 links.
+Use a short l0 and a single short sentence for l1. Prioritize explicit limitations,
+open questions and quantified results over general background. Do not repeat notes.
+
+Passage ({section}, {paper_title}, {year}):
+{passage}

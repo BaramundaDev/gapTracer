@@ -1,0 +1,26 @@
+{
+  "papers": [
+    {
+      "id": "synthetic-old-attempt",
+      "title": "SYNTHETIC CONTROL: A blocked high-resolution Aurora simulation",
+      "published": "2018-01-01",
+      "sections": [
+        {
+          "heading": "Attempt and limitation",
+          "text": "Tracking all pairwise couplings in the Aurora simulator exceeded the memory of available hardware, so our high-resolution simulation attempt failed. High-resolution simulation would let us distinguish two competing mechanisms for extreme events, which our current coarse model cannot separate. The dense interaction representation is the specific memory bottleneck; simply collecting more observations does not remove it."
+        }
+      ]
+    },
+    {
+      "id": "synthetic-new-capability",
+      "title": "SYNTHETIC CONTROL: SpectraSparse interaction storage",
+      "published": "2024-01-01",
+      "sections": [
+        {
+          "heading": "New capability and unresolved validation",
+          "text": "SpectraSparse stores only significant interaction blocks and reduces memory use while preserving aggregate coupling statistics in small systems. Its behavior for rare, high-amplitude events and large high-resolution simulations remains untested. This method has not yet been evaluated in the Aurora simulator. Whether sparse storage can remove Aurora's memory bottleneck without losing its extreme-event behavior is an open experimental question."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Score this gap on four lines, 0 to 2 each, using only the evidence given.
+Data: 0 none public, 1 public but needs work, 2 public and ready.
+Compute: 0 cluster, 1 rented GPU, 2 one consumer GPU.
+Building blocks: 0 no public code, 1 partial, 2 public.
+Scope: 0 over a year, 1 three to twelve months, 2 under three months.
+Gap: {gap_statement}
+Evidence: {l1_summaries}
+Return JSON only: {"data": n, "compute": n, "blocks": n, "scope": n,
+"reasons": {"data": "...", "compute": "...", "blocks": "...", "scope": "..."}}.

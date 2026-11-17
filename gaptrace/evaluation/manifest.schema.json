@@ -1,0 +1,945 @@
+{
+  "$defs": {
+    "Answer": {
+      "additionalProperties": false,
+      "properties": {
+        "question_id": {
+          "minLength": 1,
+          "title": "Question Id",
+          "type": "string"
+        },
+        "answer": {
+          "title": "Answer",
+          "type": "string"
+        },
+        "grader": {
+          "minLength": 1,
+          "title": "Grader",
+          "type": "string"
+        },
+        "correct": {
+          "title": "Correct",
+          "type": "boolean"
+        },
+        "cited_passage_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Cited Passage Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "retrieved_paper_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Retrieved Paper Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "claims": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "tool_calls": {
+          "minimum": 0,
+          "title": "Tool Calls",
+          "type": "integer"
+        },
+        "response_seconds": {
+          "minimum": 0,
+          "title": "Response Seconds",
+          "type": "number"
+        },
+        "token_comparison": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TokenComparison"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "question_id",
+        "answer",
+        "grader",
+        "correct",
+        "cited_passage_ids",
+        "retrieved_paper_ids",
+        "claims",
+        "tool_calls",
+        "response_seconds"
+      ],
+      "title": "Answer",
+      "type": "object"
+    },
+    "Candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "published": {
+          "format": "date",
+          "title": "Published",
+          "type": "string"
+        },
+        "first": {
+          "$ref": "#/$defs/Verdict"
+        },
+        "recheck": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Verdict"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "title": {
+          "default": "",
+          "title": "Title",
+          "type": "string"
+        },
+        "abstract": {
+          "default": "",
+          "title": "Abstract",
+          "type": "string"
+        },
+        "similarity": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Similarity"
+        }
+      },
+      "required": [
+        "id",
+        "published",
+        "first"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "supported": {
+          "title": "Supported",
+          "type": "boolean"
+        },
+        "passage_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Passage Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "quote": {
+          "default": "",
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "supported"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "DoabilityRubric": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Data",
+          "type": "integer"
+        },
+        "compute": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Compute",
+          "type": "integer"
+        },
+        "blocks": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Blocks",
+          "type": "integer"
+        },
+        "scope": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Scope",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "data",
+        "compute",
+        "blocks",
+        "scope"
+      ],
+      "title": "DoabilityRubric",
+      "type": "object"
+    },
+    "Efficiency": {
+      "additionalProperties": false,
+      "properties": {
+        "total_tokens": {
+          "minimum": 0,
+          "title": "Total Tokens",
+          "type": "integer"
+        },
+        "cloud_calls": {
+          "minimum": 0,
+          "title": "Cloud Calls",
+          "type": "integer"
+        },
+        "largest_context_tokens": {
+          "minimum": 0,
+          "title": "Largest Context Tokens",
+          "type": "integer"
+        },
+        "peak_gpu_mib": {
+          "minimum": 0,
+          "title": "Peak Gpu Mib",
+          "type": "integer"
+        },
+        "build_seconds": {
+          "minimum": 0,
+          "title": "Build Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "total_tokens",
+        "cloud_calls",
+        "largest_context_tokens",
+        "peak_gpu_mib",
+        "build_seconds"
+      ],
+      "title": "Efficiency",
+      "type": "object"
+    },
+    "EvidenceLink": {
+      "additionalProperties": false,
+      "properties": {
+        "passage_id": {
+          "minLength": 1,
+          "title": "Passage Id",
+          "type": "string"
+        },
+        "paper_id": {
+          "minLength": 1,
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "passage_text": {
+          "minLength": 1,
+          "title": "Passage Text",
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "supported": {
+          "title": "Supported",
+          "type": "boolean"
+        },
+        "grader": {
+          "minLength": 1,
+          "title": "Grader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "passage_id",
+        "paper_id",
+        "passage_text",
+        "quote",
+        "supported",
+        "grader"
+      ],
+      "title": "EvidenceLink",
+      "type": "object"
+    },
+    "Gap": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          },
+          "maxItems": 5,
+          "title": "Candidates",
+          "type": "array"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "unaddressed_limitation",
+                "unanswered_open_question",
+                "untested_combination",
+                "conflicting_results"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "canonical_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Canonical Id"
+        },
+        "gold_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gold Id"
+        },
+        "judgment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GapJudgment"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "ratings": {
+          "items": {
+            "$ref": "#/$defs/HumanRating"
+          },
+          "title": "Ratings",
+          "type": "array"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/EvidenceLink"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        },
+        "predicted_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "open",
+                "partly",
+                "closed",
+                "unchecked"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predicted Status"
+        },
+        "reference_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "open",
+                "partly",
+                "closed"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Status"
+        },
+        "future_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Future Probability"
+        },
+        "predicted_doability": {
+          "anyOf": [
+            {
+              "maximum": 8,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predicted Doability"
+        }
+      },
+      "required": [
+        "id",
+        "statement",
+        "candidates"
+      ],
+      "title": "Gap",
+      "type": "object"
+    },
+    "GapJudgment": {
+      "additionalProperties": false,
+      "description": "Adjudicated labels, independent of generation and future matching.",
+      "properties": {
+        "grader": {
+          "minLength": 1,
+          "title": "Grader",
+          "type": "string"
+        },
+        "real": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Real",
+          "type": "integer"
+        },
+        "open": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Open",
+          "type": "integer"
+        },
+        "doable": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Doable",
+          "type": "integer"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "doability_rubric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DoabilityRubric"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "grader",
+        "real",
+        "open",
+        "doable",
+        "reason"
+      ],
+      "title": "GapJudgment",
+      "type": "object"
+    },
+    "GoldGap": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        },
+        "relevance": {
+          "maximum": 3,
+          "minimum": 0,
+          "title": "Relevance",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "statement",
+        "relevance"
+      ],
+      "title": "GoldGap",
+      "type": "object"
+    },
+    "HumanRating": {
+      "additionalProperties": false,
+      "properties": {
+        "rater": {
+          "minLength": 1,
+          "title": "Rater",
+          "type": "string"
+        },
+        "real": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Real",
+          "type": "integer"
+        },
+        "open": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Open",
+          "type": "integer"
+        },
+        "doable": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Doable",
+          "type": "integer"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rater",
+        "real",
+        "open",
+        "doable",
+        "reason"
+      ],
+      "title": "HumanRating",
+      "type": "object"
+    },
+    "Paper": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "published": {
+          "format": "date",
+          "title": "Published",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "published"
+      ],
+      "title": "Paper",
+      "type": "object"
+    },
+    "Question": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "gold_answer": {
+          "minLength": 1,
+          "title": "Gold Answer",
+          "type": "string"
+        },
+        "answerable": {
+          "default": true,
+          "title": "Answerable",
+          "type": "boolean"
+        },
+        "gold_passage_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Gold Passage Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "required_paper_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Required Paper Ids",
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "gold_answer"
+      ],
+      "title": "Question",
+      "type": "object"
+    },
+    "Run": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "system": {
+          "minLength": 1,
+          "title": "System",
+          "type": "string"
+        },
+        "topics": {
+          "items": {
+            "$ref": "#/$defs/TopicRun"
+          },
+          "title": "Topics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "system",
+        "topics"
+      ],
+      "title": "Run",
+      "type": "object"
+    },
+    "TokenComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "mcp_tokens": {
+          "minimum": 0,
+          "title": "Mcp Tokens",
+          "type": "integer"
+        },
+        "raw_passage_tokens": {
+          "exclusiveMinimum": 0,
+          "title": "Raw Passage Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "mcp_tokens",
+        "raw_passage_tokens"
+      ],
+      "title": "TokenComparison",
+      "type": "object"
+    },
+    "Topic": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "questions": {
+          "items": {
+            "$ref": "#/$defs/Question"
+          },
+          "title": "Questions",
+          "type": "array"
+        },
+        "gold_gaps": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/GoldGap"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gold Gaps"
+        }
+      },
+      "required": [
+        "id",
+        "questions"
+      ],
+      "title": "Topic",
+      "type": "object"
+    },
+    "TopicRun": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "corpus": {
+          "items": {
+            "$ref": "#/$defs/Paper"
+          },
+          "minItems": 1,
+          "title": "Corpus",
+          "type": "array"
+        },
+        "build_cloud_enabled": {
+          "title": "Build Cloud Enabled",
+          "type": "boolean"
+        },
+        "build_cloud_calls": {
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Build Cloud Calls",
+          "type": "integer"
+        },
+        "gaps": {
+          "items": {
+            "$ref": "#/$defs/Gap"
+          },
+          "title": "Gaps",
+          "type": "array"
+        },
+        "answers": {
+          "items": {
+            "$ref": "#/$defs/Answer"
+          },
+          "title": "Answers",
+          "type": "array"
+        },
+        "efficiency": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Efficiency"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "gold_mapping_complete": {
+          "default": false,
+          "title": "Gold Mapping Complete",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "corpus",
+        "build_cloud_enabled",
+        "build_cloud_calls",
+        "gaps",
+        "answers"
+      ],
+      "title": "TopicRun",
+      "type": "object"
+    },
+    "Verdict": {
+      "additionalProperties": false,
+      "properties": {
+        "match": {
+          "title": "Match",
+          "type": "boolean"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "grader": {
+          "minLength": 1,
+          "title": "Grader",
+          "type": "string"
+        },
+        "reason": {
+          "default": "",
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "match",
+        "confidence",
+        "grader"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "default": "benchmark",
+      "enum": [
+        "benchmark",
+        "smoke"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "split": {
+      "enum": [
+        "development",
+        "held-out"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "cutoff": {
+      "format": "date",
+      "title": "Cutoff",
+      "type": "string"
+    },
+    "model_training_cutoff": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Training Cutoff"
+    },
+    "future_through": {
+      "format": "date",
+      "title": "Future Through",
+      "type": "string"
+    },
+    "first_threshold": {
+      "default": 0.6,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "First Threshold",
+      "type": "number"
+    },
+    "recheck_threshold": {
+      "default": 0.8,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Recheck Threshold",
+      "type": "number"
+    },
+    "ranking_ks": {
+      "items": {
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer"
+      },
+      "minItems": 1,
+      "title": "Ranking Ks",
+      "type": "array"
+    },
+    "topics": {
+      "items": {
+        "$ref": "#/$defs/Topic"
+      },
+      "minItems": 1,
+      "title": "Topics",
+      "type": "array"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/Run"
+      },
+      "minItems": 1,
+      "title": "Runs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "split",
+    "cutoff",
+    "future_through",
+    "topics",
+    "runs"
+  ],
+  "title": "Evaluation",
+  "type": "object"
+}

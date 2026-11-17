@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/facebookresearch/context-language-models",
+  "commit": "483198229ab7b90c0eed4651306ab3b3505aaf50",
+  "paths": [
+    "clm/clm_icl/__init__.py",
+    "clm/clm_icl/tasks.py",
+    "clm/clm_icl/evolve.py",
+    "clm/clm_icl/propose.py",
+    "clm/clm_icl/note.py",
+    "clm/clm_icl/proposer_prompt.md"
+  ],
+  "license": "CC-BY-NC-4.0",
+  "sha256": {
+    "evolve.py": "dddf47ee277867c6c1c790bf0b7275c5c804026fc754acbb80ecd3b7bcb2963d",
+    "LICENSE": "41003d4a74749c0220e33dd415042164b5a1093ed401f36277234f772d22d3d0",
+    "note.py": "c4c1409c19d971fd06d7e77f6e015d79f0fda08943dfe7793fc8a6587739d601",
+    "NOTICE": "ce77ffcc6f7ba8fb321c1f650adb3fd2c6d4e89247487c9585d200a051453f06",
+    "propose.py": "6cbc203a970a304026a5ef5ca2ed5c7112fc752060cebe68e86f01d88da7feb1",
+    "proposer_prompt.md": "c0efd50af76c201b0bead77ec8355227dac529830123f9a55089406b2002449f",
+    "tasks.py": "93f361159c193b10d7a9ca64c00e490dd90fca3f7f62084abdefd7b680e86797",
+    "__init__.py": "402ff4fe521cd42e03bd78bfa0bcefe00803e3d890b8c31fcb3b20c00270c66c"
+  }
+}

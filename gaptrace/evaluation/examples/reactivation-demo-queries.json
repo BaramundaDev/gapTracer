@@ -1,0 +1,9 @@
+{
+  "split": "development",
+  "provenance": "Synthetic engineering controls; not an independent real-paper retrieval benchmark.",
+  "queries": [
+    {"id": "old-blocker", "text": "Aurora simulator dense memory bottleneck failed attempt", "gold_passage_ids": ["synthetic-old-attempt-1-1"]},
+    {"id": "new-capability", "text": "SpectraSparse significant interaction blocks memory", "gold_passage_ids": ["synthetic-new-capability-1-1"]},
+    {"id": "unresolved-test", "text": "sparse storage rare high amplitude extreme event validation", "gold_passage_ids": ["synthetic-new-capability-1-1"]}
+  ]
+}

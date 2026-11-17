@@ -1,0 +1,13 @@
+{
+  "engine": "context",
+  "input_plan": "context-smoke.json",
+  "system": "typed-managed",
+  "objective": "answer_accuracy",
+  "rounds": 1,
+  "repeats": 1,
+  "trial_seconds": 240,
+  "total_seconds": 900,
+  "minimum_gain": 0,
+  "context_representation": "typed",
+  "context_management": "managed"
+}

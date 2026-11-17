@@ -1,0 +1,12 @@
+{
+  "papers": [
+    {
+      "id": "oa-W2626778328",
+      "title": "Attention Is All You Need",
+      "published": "2017-06-12",
+      "sections": [
+        {"heading": "Conclusion and future work", "text": "Making generation less sequential is another research goals of ours."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "engine": {
+      "enum": [
+        "context",
+        "live"
+      ],
+      "title": "Engine",
+      "type": "string"
+    },
+    "input_plan": {
+      "minLength": 1,
+      "title": "Input Plan",
+      "type": "string"
+    },
+    "system": {
+      "minLength": 1,
+      "title": "System",
+      "type": "string"
+    },
+    "objective": {
+      "default": "hit_rate",
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "guardrails": {
+      "additionalProperties": {
+        "enum": [
+          "higher",
+          "lower"
+        ],
+        "type": "string"
+      },
+      "propertyNames": {
+        "minLength": 1
+      },
+      "title": "Guardrails",
+      "type": "object"
+    },
+    "rounds": {
+      "default": 5,
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Rounds",
+      "type": "integer"
+    },
+    "repeats": {
+      "default": 3,
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Repeats",
+      "type": "integer"
+    },
+    "trial_seconds": {
+      "default": 900,
+      "maximum": 86400,
+      "minimum": 1,
+      "title": "Trial Seconds",
+      "type": "integer"
+    },
+    "total_seconds": {
+      "default": 7200,
+      "maximum": 604800,
+      "minimum": 1,
+      "title": "Total Seconds",
+      "type": "integer"
+    },
+    "minimum_gain": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Minimum Gain",
+      "type": "number"
+    },
+    "seed": {
+      "default": 1729,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "context_representation": {
+      "default": "typed",
+      "enum": [
+        "raw",
+        "flat",
+        "typed",
+        "plain"
+      ],
+      "title": "Context Representation",
+      "type": "string"
+    },
+    "context_management": {
+      "default": "managed",
+      "enum": [
+        "static",
+        "managed"
+      ],
+      "title": "Context Management",
+      "type": "string"
+    }
+  },
+  "required": [
+    "engine",
+    "input_plan",
+    "system"
+  ],
+  "title": "SearchPlan",
+  "type": "object"
+}

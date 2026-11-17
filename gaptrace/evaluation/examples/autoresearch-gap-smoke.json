@@ -1,0 +1,10 @@
+{
+  "engine": "live",
+  "input_plan": "smoke-plan.json",
+  "system": "gaptrace-local",
+  "objective": "hit_rate",
+  "rounds": 3,
+  "repeats": 3,
+  "trial_seconds": 1800,
+  "total_seconds": 7200
+}

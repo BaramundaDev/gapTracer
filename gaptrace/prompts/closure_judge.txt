@@ -1,0 +1,5 @@
+A candidate research gap and one paper are given. Decide whether the paper
+fills the gap. Judge only from the text shown.
+Gap: {gap_statement}
+Paper ({year}): {title}. {abstract}
+Return JSON only: {"verdict": "fills" or "partly" or "does_not", "reason": "under 30 words"}.

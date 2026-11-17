@@ -1,0 +1,4 @@
+Do these two notes describe the same {type}? Answer from the text alone.
+A: {name_a}. {l0_a}
+B: {name_b}. {l0_b}
+Return JSON only: {"same": true or false}.

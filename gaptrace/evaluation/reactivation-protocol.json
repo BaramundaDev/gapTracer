@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "purpose": "Find scientifically important old objectives newly worth investigating because a later capability addresses a documented blocker.",
+  "topics": {"development": 12, "held-out": 8},
+  "paper_budgets": [25, 50, 100, 200],
+  "provisional_paper_budget": 100,
+  "metadata_token_budgets": [0, 25, 50, 100],
+  "provisional_metadata_tokens": 50,
+  "fresh_build_repeats": 3,
+  "retrieval_ks": [5, 10, 20],
+  "ranking_ks": [1, 3, 5, 10],
+  "minimum_gold_opportunities_per_topic": 10,
+  "required_controls": ["already_solved", "unrelated_advance", "same_blocker_persists", "resource_hype", "unsupported_failure", "prompt_injection", "future_leakage"],
+  "primary_endpoints": ["opportunity_precision@5", "gold_importance_ndcg@5", "gold_recall@5"],
+  "separate_diagnostics": ["evidence_support", "bridge_specificity", "false_reactivation_rate", "importance_agreement", "feasibility", "retrieval_recall", "extraction_coverage", "tokens", "latency", "duplicate_rate"],
+  "importance_axes": ["scientific_or_practical_consequence", "expected_information_gain", "reach"],
+  "importance_reference": "Independent adjudicated overall importance 0..4; axes are collected separately. No unvalidated arithmetic weights are claimed optimal.",
+  "selection": "Use development topics only to select paper and metadata budgets and ranking rules. Freeze before reading held-out labels.",
+  "limitations": ["Budgets and thresholds are design choices until validated on the independent dataset.", "Abstract-only corpora support screening, not full-text failure or resource verification.", "No feasible-to-run filter is allowed to silently erase high-importance ambitious research."]
+}
